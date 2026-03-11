@@ -8,7 +8,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     course = serializers.CharField(write_only=True)
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'student_id', 'phone', 'course' , 'email', 'password']
+        fields = ['username', 'first_name', 'last_name', 'student_id', 'phone', 'course' , 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -18,9 +18,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         Student.objects.create(
             user=user,
+            username=user.username,
             student_id=student_id,
             phone=phone,
-            course=course)
+            course=course,
+            first_name=user.first_name, 
+            last_name=user.last_name,
+            email=user.email)
         return user
 
 class StudentSerializer(serializers.ModelSerializer):
