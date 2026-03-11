@@ -14,7 +14,7 @@ class Student(models.Model):
     student_id = models.CharField(max_length=20, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    gender = models.CharField(max_length=20, choices=gender_CHOICES, default='Male')
+    gender = models.CharField(max_length=20, choices=gender_CHOICES, default='Other')
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20)
     course = models.CharField(max_length=100)
