@@ -6,11 +6,11 @@ const loginStudent = createAsyncThunk(
   'login/loginStudent',
   async (credentials, thunkAPI) => {
     try {
-      const response = await axios.post(`${proxy}auth/login/`, credentials);
+      const response = await axios.post(`${proxy}/auth/login/`, credentials);
       localStorage.setItem('access_token', response.data.access)
       localStorage.setItem('refresh_token', response.data.refresh)
 
-      const userResponse = await axios.get(`${proxy}students/profile/`, {
+      const userResponse = await axios.get(`${proxy}/students/profile/`, {
         headers: {
           Authorization: `Bearer ${response.data.access}`,
         },

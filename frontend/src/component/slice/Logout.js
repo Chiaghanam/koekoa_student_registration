@@ -7,7 +7,7 @@ export const logoutStudent = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             await axios.post(                              
-                `${proxy}auth/logout/`,
+                `${proxy}/auth/logout/`,
                 { refresh: localStorage.getItem('refresh_token') },  
                 { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }}
             )
