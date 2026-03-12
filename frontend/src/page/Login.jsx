@@ -17,8 +17,11 @@ const Login = () => {
   useEffect(() => {
     if (success) {
       navigate("/Home");
+    }else if (error) {
+      console.error("Login failed:", error);
+      navigate("/");
     }
-  }, [success, navigate]);
+  }, [success, error, navigate]);
 
   const onSubmit = (data) => {
     dispatch(loginStudent(data));
@@ -29,11 +32,11 @@ const Login = () => {
       <div className="card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
         <h3 className="text-center mb-4 text-primary">Login</h3>
 
-        {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
-          </div>
-        )}
+         {error && (
+                <p style={{ color: 'red' }}>
+                    {error.detail || error.message || JSON.stringify(error)}
+                </p>
+            )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-3">

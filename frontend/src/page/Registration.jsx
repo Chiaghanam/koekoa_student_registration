@@ -1,9 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
 import { registerStudent } from '../component/slice/RegisterSlice';
 import {useNavigate} from 'react-router-dom';
 const Registration = () => {
+  const [alertInfo, setAlertInfo] = useState({ show: false, message: '', variant: '' })
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -14,17 +15,25 @@ const Registration = () => {
     }
     useEffect(() => {
         if (success) {
-            alert("Registration successful!")
-            navigate("/")
+          setAlertInfo({ show: true, message: 'Registration successful!', variant: 'success' })
+          setTimeout(() => navigate("/"), 2000)
         }
         if (error) {
-            alert(error)
+          setAlertInfo({ show: true, message: error.detail || error.message || 'Registration failed!', variant: 'danger' })
         }
     }, [success, error, navigate])
   
   return (
      <div className="container mt-5">
-      <div className="card bg-secondary shadow p-4">
+        {alertInfo.show && (
+            <div className={'alert alert-' + alertInfo.variant} 
+                variant={alertInfo.variant} 
+                onClose={() => setAlertInfo({ ...alertInfo, show: false })} 
+                dismissible="true">
+                {alertInfo.message}
+            </div>
+        )}
+      <div className="card shadow p-4">
         <h2 className="text-center mb-4">Student Registration</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-3">
